@@ -5,7 +5,7 @@
 ![Powered by Pulseaudio](icons/powered_by_pulseaudio.png)
 
 
-![Build Passing](icons/buld-passing.svg)
+![Build Passing](https://travis-ci.org/SCOTT-HAMILTON/FakeLib.svg?branch=master&status=passed)
 
 Fake is a pulseaudio wrapper library written in c++.
 
