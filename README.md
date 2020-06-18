@@ -22,7 +22,7 @@ Fake is a pulseaudio wrapper library written in c++.
  The basic usage consists of four steps : 
   1. Stacking commands that you want to run.
   2. Running them.
-  4. Extracing the resuts you're interesed in.
+  4. Extracting the resuts you're interesed in.
   5. Using the extracted results.
 
 In code, this would translate to
