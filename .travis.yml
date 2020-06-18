@@ -6,7 +6,6 @@ language: python
 
 matrix:
   include:
-    - env: CC=clang
     - env: CXX=clang++
 
 before_install:
