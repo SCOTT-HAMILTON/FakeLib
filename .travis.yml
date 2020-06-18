@@ -13,8 +13,8 @@ addons:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install ninja python-pip python-dev build-essential
-  - sudo pip3 install --upgrade pip
-  - sudo pip3 install meson
+  - sudo pip install --upgrade pip
+  - sudo pip install meson
 
 install:
   - export CXX="clang++-3.7" CC="clang-3.7"; fi
