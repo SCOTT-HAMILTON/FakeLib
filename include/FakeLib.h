@@ -1,8 +1,6 @@
 #ifndef FAKE_LIB_H
 #define FAKE_LIB_H
 
-#include "player.h"
-
 #include <pulse/pulseaudio.h>
 #include <pulse/operation.h>
 #include <stdio.h>
@@ -13,6 +11,8 @@
 #include <string>
 #include <array>
 #include <exception>
+#include <vector>
+#include <variant>
 
 // User defined control fields
 static const char *defaultSourceProcessBinary = "Discord";
@@ -97,7 +97,40 @@ using info_list = std::array<info_type, 16>;
 int move_source_output_port(uint32_t sourceIndex, uint32_t portIndex);
 int load_module(load_module_infos_t *load_module_infos);
 int unload_module(load_module_infos_t *load_module_infos);
-int FakeAndPlayWav(std::string fileName, std::string sinks,
-		   std::string processBinaryName);
+
+using ObjectVariant = std::variant<
+	move_source_output_port_t,
+	info_list<module_infos_t>,
+	info_list<sink_infos_t>,
+	info_list<source_infos_t>,
+	info_list<source_output_infos_t>,
+	load_module_infos_t,
+	module_infos_t,
+	sink_infos_t,
+	source_infos_t,
+	source_output_infos_t,
+	unload_module_infos_t>;
+
+class FakeLib
+{
+public:
+	FakeLib move_source_output_port(uint32_t portIndex, uint32_t sourceIndex);
+	FakeLib get_module_list();
+	FakeLib get_sink_list();
+	FakeLib get_source_list();
+	FakeLib get_source_output_list();
+	FakeLib load_module(const std::string& name, 
+			 const std::string& arguments,
+			 const std::string& description = "");
+	FakeLib get_module(uint32_t index);
+	FakeLib get_sink(uint32_t index);
+	FakeLib get_source(uint32_t index);
+	FakeLib get_source_output(uint32_t index);
+	std::vector<ObjectVariant> run_commands();
+
+private:
+	std::vector<ObjectVariant> commandObjects;
+
+};
 
 #endif // FAKE_LIB_H

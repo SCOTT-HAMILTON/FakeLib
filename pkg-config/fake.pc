@@ -4,7 +4,7 @@ includedir=${prefix}/include
 libdir=${exec_prefix}/lib
 
 Name: fake
-Description: The FakeMicWavPlayer library
+Description: The FakeLib library
 Version: 0.0.1
 Cflags: -I${includedir}
 Libs: -L${libdir} -lFake

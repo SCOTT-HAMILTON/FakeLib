@@ -10,7 +10,7 @@ lib_fake = static_library('Fake', lib_src,
   dependencies : [libpulse, libpulse_simple], 
   install : true)
 
-install_headers('include/FakeLib.h', 'include/CallBacks.h', 'include/FakeLibUtils.hpp')
+install_headers('include/FakeLib.h', 'include/FakeLibImplementation.h', 'include/CallBacks.h', 'include/FakeLibUtils.hpp')
 
 install_data('pkg-config/fake.pc',
   install_dir: get_option('libdir')+'/pkgconfig')
