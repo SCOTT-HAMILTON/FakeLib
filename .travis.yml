@@ -1,26 +1,23 @@
-sudo: required
-language: cpp
-compiler:
-  - clang
+dist: bionic
+group: travis_latest
 
-addons:
-  apt:
-    sources:
-    - llvm-toolchain-precise
-    packages:
-    - clang-3.8
+os: linux
+language: python
+
+matrix:
+  include:
+    - env: CC=clang
+    - env: CXX=clang++
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install ninja-build python3-pip python-dev build-essential libpulse-dev
-  - sudo pip3 install --upgrade pip
-  - sudo pip3 install meson
+  - sudo apt-get libpulse-dev
 
 install:
-  - export CXX="clang++" CC="clang"
+  - pip install meson ninja
 
 script:
   - mkdir build
   - meson build
-  - cd build
-  - sudo ninja
+  - ninja -C build
+
