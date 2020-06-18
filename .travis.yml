@@ -23,5 +23,4 @@ script:
   - mkdir build
   - meson build
   - cd build
-  - ninja
-  - ninja test
+  - sudo ninja
