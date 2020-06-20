@@ -38,7 +38,7 @@ void get_infos_list_cb(__attribute__((unused)) pa_context *c,
 	if (eol > 0) {
 		return;
 	}
-	for (int ctr = 0; ctr < 16; ++ctr) {
+	for (int ctr = 0; ctr < info_list_size; ++ctr) {
 		if (!infos->at(ctr).initialized) {
 			infos->at(ctr).initialized = true;
 			implementation(infos->at(ctr), l);

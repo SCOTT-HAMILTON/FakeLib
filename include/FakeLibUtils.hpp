@@ -17,7 +17,7 @@ using namespace FakeLibImplementation;
 template<typename user_type>
 static void print_list(info_list<user_type> list,
 			std::function<void(const user_type&, int)> print){
-	for (int ctr = 0; ctr < 16; ++ctr) {
+	for (int ctr = 0; ctr < info_list_size; ++ctr) {
 		if (list[ctr].initialized)
 			print(list[ctr], ctr);
 	}
@@ -101,7 +101,7 @@ static auto extract(std::vector<ObjectVariant>& results) {
 		} catch (const std::bad_variant_access&) {
 		}
 	}
-	throw ObjectNotFoundInResultsError();
+	throw ObjectNotFoundError();
 }
 }
 

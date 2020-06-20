@@ -16,18 +16,18 @@
 
 // User defined control fields
 static const char *defaultSourceProcessBinary = "Discord";
-static const char *fakeMonitorName = "TestSink.monitor";
-static const char *fakeCombinedMonitorName = "TestCombinedSink.monitor";
-static const char *fakeSinkName = "TestSink";
-static const char *fakeCombinedSinkName = "TestCombinedSink";
+static const char *fakeMonitorName = "fakesink.monitor";
+static const char *fakeCombinedMonitorName = "fakecombinedsink.monitor";
+static const char *fakeSinkName = "fakesink";
+static const char *fakeCombinedSinkName = "fakecombinedsink";
 static const char *defaultCombinedSlavesList =
-    "alsa_output.usb-Sennheiser_Sennheiser_SC60_for_Lync_55ef416267-00.analog-"
-    "stereo";
+    "alsa_output.pci-0000_00_1f.3.analog-stereo";
+static const int info_list_size = 50;
 
 // Field list is here:
 // http://0pointer.de/lennart/projects/pulseaudio/doxygen/structpa__sink__info.html
 
-struct ObjectNotFoundInResultsError : public std::exception
+struct ObjectNotFoundError : public std::exception
 {
 	const char * what () const throw ()
 	{ 
@@ -92,7 +92,7 @@ typedef struct success_info {
 } success_info_t;
 
 template<typename info_type>
-using info_list = std::array<info_type, 16>;
+using info_list = std::array<info_type, info_list_size>;
 
 int move_source_output_port(uint32_t sourceIndex, uint32_t portIndex);
 int load_module(load_module_infos_t *load_module_infos);
@@ -122,11 +122,13 @@ public:
 	FakeLib load_module(const std::string& name, 
 			 const std::string& arguments,
 			 const std::string& description = "");
+	FakeLib unload_module(uint32_t index);
 	FakeLib get_module(uint32_t index);
 	FakeLib get_sink(uint32_t index);
 	FakeLib get_source(uint32_t index);
 	FakeLib get_source_output(uint32_t index);
 	std::vector<ObjectVariant> run_commands();
+	FakeLib clear_commands();
 
 private:
 	std::vector<ObjectVariant> commandObjects;

@@ -58,6 +58,14 @@ FakeLib FakeLib::load_module(const std::string& name,
 	commandObjects.push_back(infos);
 	return *this;
 }
+FakeLib FakeLib::unload_module(uint32_t index) {
+	unload_module_infos_t infos = {
+		.success = 0,
+		.index = index
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
 FakeLib FakeLib::get_module(uint32_t index) {
 	module_infos_t infos = {
 		.initialized = false,
@@ -92,4 +100,8 @@ FakeLib FakeLib::get_source_output(uint32_t index) {
 }
 std::vector<ObjectVariant> FakeLib::run_commands() {
 	return FakeLibImplementation::run_pa_commands(commandObjects);
+}
+FakeLib FakeLib::clear_commands() {
+	commandObjects.clear();
+	return *this;
 }

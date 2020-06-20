@@ -237,7 +237,6 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 
 	// Clean up time
 	if (pa_operation_get_state(op) == PA_OPERATION_DONE) {
-		std::cerr << "Clean Up Time\n";
 		// Now we're done, clean up and disconnect and
 		// return
 		pa_operation_unref(op);
