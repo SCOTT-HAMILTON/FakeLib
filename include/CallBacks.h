@@ -26,8 +26,16 @@ void get_infos_cb(__attribute__((unused)) pa_context *c,
 template<typename user_type>
 void success_callback(pa_context *c, int success, void *userdata);
 
+// Actions
 void move_source_output_port_cb(pa_context *c, int success,
 				     void *userdata);
+void load_module_infos_cb(pa_context *c, uint32_t index, void *userdata);
+void unload_module_cb(pa_context *c, int success,
+				     void *userdata);
+void set_sink_volume_cb(pa_context *c, int success, void *userdata);
+
+
+// Fetching list of modules, sinks, sources and source outputs
 void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol,
 		     void *userdata);
 void sink_infos_list_cb(pa_context *c, const pa_sink_info *l, int eol,
@@ -37,8 +45,7 @@ void source_infos_list_cb(pa_context *c, const pa_source_info *l, int eol,
 void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata);
 
-void load_module_infos_cb(pa_context *c, uint32_t index, void *userdata);
-
+// Fetching modules, sinks, sources and source outputs
 void module_infos_cb(pa_context *c, const pa_module_info *l, int eol,
 		     void *userdata);
 void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol,
@@ -47,8 +54,6 @@ void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 		     void *userdata);
 void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata);
-void unload_module_cb(pa_context *c, int success,
-				     void *userdata);
 
 /* void module_infos_cb(pa_context *c, const pa_module_info *l, int eol, */
 /* 		     void *userdata); */

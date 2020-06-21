@@ -22,6 +22,35 @@ FakeLib FakeLib::move_source_output_port(uint32_t portIndex, uint32_t sourceInde
 	commandObjects.push_back(infos);
 	return *this;
 }
+FakeLib FakeLib::load_module(const std::string& name, 
+		 const std::string& arguments,
+		 const std::string& description){
+	load_module_t infos = {
+		.success = 0,
+		.name = name,
+		.arguments = arguments,
+		.description = description
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
+FakeLib FakeLib::unload_module(uint32_t index) {
+	unload_module_t infos = {
+		.success = 0,
+		.index = index
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
+FakeLib FakeLib::set_sink_volume(uint32_t index, double volume) {
+	set_sink_volume_t infos = {
+		.success = 0,
+		.index = index,
+		.volume = volume
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
 FakeLib FakeLib::get_module_list() {
 	info_list<module_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
@@ -43,26 +72,6 @@ FakeLib FakeLib::get_source_list() {
 FakeLib FakeLib::get_source_output_list() {
 	info_list<source_output_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
-	return *this;
-}
-FakeLib FakeLib::load_module(const std::string& name, 
-		 const std::string& arguments,
-		 const std::string& description){
-	load_module_infos_t infos = {
-		.success = 0,
-		.name = name,
-		.arguments = arguments,
-		.description = description
-	};
-	commandObjects.push_back(infos);
-	return *this;
-}
-FakeLib FakeLib::unload_module(uint32_t index) {
-	unload_module_infos_t infos = {
-		.success = 0,
-		.index = index
-	};
 	commandObjects.push_back(infos);
 	return *this;
 }

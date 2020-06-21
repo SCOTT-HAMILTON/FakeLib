@@ -73,15 +73,20 @@ void move_source_output_port_cb(pa_context *c, int success,
 	success_callback<success_info_t>(c, success, userdata);
 }
 
-void unload_module_cb(pa_context *c, int success,
-				     void *userdata) {
-	success_callback<unload_module_infos_t>(c, success, userdata);
-}
-
 void load_module_infos_cb(__attribute__((unused)) pa_context *c, uint32_t index,
 		    void *userdata) {
-	load_module_infos_t *load_module_infos = static_cast<load_module_infos_t*>(userdata);
-	load_module_infos->success = 1;
+	load_module_t *load_module = static_cast<load_module_t*>(userdata);
+	load_module->success = 1;
+}
+
+void unload_module_cb(pa_context *c, int success,
+				     void *userdata) {
+	success_callback<unload_module_t>(c, success, userdata);
+}
+
+void set_sink_volume_cb(pa_context *c, int success,
+				     void *userdata) {
+	success_callback<set_sink_volume_t>(c, success, userdata);
 }
 
 void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol, void *userdata) {
@@ -151,7 +156,7 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 }
 
 void unload_module_infos_cb(pa_context *c, int success, void *userdata) {
-	success_callback<unload_module_infos>(c, success, userdata);
+	success_callback<unload_module_t>(c, success, userdata);
 }
 
 

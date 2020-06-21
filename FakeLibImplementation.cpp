@@ -76,6 +76,57 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 		catch (std::exception) {
 			continue;
 		}
+		// load module
+		try {
+			auto& objectPtr = std::get<load_module_t>(object);
+			op = pa_context_load_module(
+					ctx,
+					objectPtr.name.c_str(),
+					objectPtr.arguments.c_str(),
+					load_module_infos_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
+		// unload module
+		try {
+			auto& objectPtr = std::get<unload_module_t>(object);
+			op = pa_context_unload_module(
+					ctx,
+					objectPtr.index,
+					unload_module_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
+		// set sink volume
+		try {
+			auto& objectPtr = std::get<set_sink_volume_t>(object);
+			double v = objectPtr.volume/100.0;
+			std::cerr << "Setting volume to : " << v << '\n';
+			auto volume = pa_sw_volume_from_linear(v);
+			pa_cvolume_set(&(objectPtr.cvolume), 2, volume);
+			op = pa_context_set_sink_volume_by_index(
+					ctx,
+					objectPtr.index,
+					&(objectPtr.cvolume),
+					set_sink_volume_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
 		// get modules list 
 		try {
 			auto& objectPtr = std::get<info_list<module_infos_t>>(object);
@@ -134,22 +185,6 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 		catch (std::exception) {
 			continue;
 		}
-		// load module
-		try {
-			auto& objectPtr = std::get<load_module_infos_t>(object);
-			op = pa_context_load_module(
-					ctx,
-					objectPtr.name.c_str(),
-					objectPtr.arguments.c_str(),
-					load_module_infos_cb,
-					&objectPtr);
-			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
-			throw std::exception();
-		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
-			continue;
-		}
 
 		// get module infos
 		try {
@@ -204,21 +239,6 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					ctx,
 					objectPtr.index,
 					source_output_infos_cb,
-					&objectPtr);
-			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
-			throw std::exception();
-		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
-			continue;
-		}
-		// unload module
-		try {
-			auto& objectPtr = std::get<unload_module_infos_t>(object);
-			op = pa_context_unload_module(
-					ctx,
-					objectPtr.index,
-					unload_module_cb,
 					&objectPtr);
 			++objectIndex;
 			pa_mainloop_iterate(ml, 1, NULL);
