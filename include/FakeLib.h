@@ -33,7 +33,7 @@ struct ObjectNotFoundError : public std::exception
 	}
 };
 
-typedef struct move_source_ouptput_port {
+typedef struct move_source_output_port {
 	int success;
 	uint32_t portIndex;
 	uint32_t sourceIndex;
