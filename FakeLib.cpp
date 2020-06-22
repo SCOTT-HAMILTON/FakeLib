@@ -72,6 +72,12 @@ FakeLib FakeLib::get_sink_list() {
 	commandObjects.push_back(infos);
 	return *this;
 }
+FakeLib FakeLib::get_sink_input_list() {
+	info_list<sink_input_infos_t> infos;
+	FakeLibUtils::reset_info_list(infos);
+	commandObjects.push_back(infos);
+	return *this;
+}
 FakeLib FakeLib::get_source_list() {
 	info_list<source_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
@@ -94,6 +100,14 @@ FakeLib FakeLib::get_module(uint32_t index) {
 }
 FakeLib FakeLib::get_sink(uint32_t index) {
 	sink_infos_t infos = {
+		.initialized = false,
+		.index  = index
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
+FakeLib FakeLib::get_sink_input(uint32_t index) {
+	sink_input_infos_t infos = {
 		.initialized = false,
 		.index  = index
 	};

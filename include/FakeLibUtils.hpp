@@ -53,6 +53,26 @@ static void print_sink_list(info_list<sink_infos_t> list){
 	);
 }
 
+static void print_sink_input_list(info_list<sink_input_infos_t> list){
+	print_list<sink_input_infos_t>(
+		list,
+		[](const auto& info, int ctr) {
+			std::cerr << "=======[ Sink Input info #" << ctr + 1 << " ]=======\n";
+			std::cerr << "Name: " << 
+					info.name << '\n';
+			std::cerr << "Index: " << 
+					info.index << '\n';
+			std::cerr << "Owner Module: " << 
+					info.owner_module << '\n';
+			std::cerr << "Client: " << 
+					info.client << '\n';
+			std::cerr << "Sink: " << 
+					info.sink << '\n';
+			std::cerr << '\n';
+		}
+	);
+}
+
 static void print_source_list(info_list<source_infos_t> list){
 	print_list<source_infos_t>(
 		list,

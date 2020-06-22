@@ -36,10 +36,12 @@ void set_sink_volume_cb(pa_context *c, int success, void *userdata);
 void set_sink_input_volume_cb(pa_context *c, int success, void *userdata);
 
 
-// Fetching list of modules, sinks, sources and source outputs
+// Fetching list of modules, sinks, sink inputs, sources and source outputs
 void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol,
 		     void *userdata);
 void sink_infos_list_cb(pa_context *c, const pa_sink_info *l, int eol,
+		   void *userdata);
+void sink_input_infos_list_cb(pa_context *c, const pa_sink_input_info *l, int eol,
 		   void *userdata);
 void source_infos_list_cb(pa_context *c, const pa_source_info *l, int eol,
 		     void *userdata);
@@ -51,18 +53,11 @@ void module_infos_cb(pa_context *c, const pa_module_info *l, int eol,
 		     void *userdata);
 void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol,
 		   void *userdata);
+void sink_input_infos_cb(pa_context *c, const pa_sink_input_info *l, int eol,
+		   void *userdata);
 void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 		     void *userdata);
 void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata);
-
-/* void module_infos_cb(pa_context *c, const pa_module_info *l, int eol, */
-/* 		     void *userdata); */
-/* void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol, */
-/* 		   void *userdata); */
-/* void source_infos_cb(pa_context *c, const pa_source_info *l, int eol, */
-/* 		     void *userdata); */
-/* void source_output_infos_cb(pa_context *c, const pa_source_output_info *l, */
-/* 			    int eol, void *userdata); */
 
 #endif //CALLBACKS_H

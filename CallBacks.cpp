@@ -96,14 +96,11 @@ void set_sink_input_volume_cb(pa_context *c, int success,
 
 void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol, void *userdata) {
 	get_infos_list_cb<pa_module_info, module_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](module_infos_t& module_info, const pa_module_info* l){
-				module_info.name = l->name;
-				module_info.index = l->index;
-				module_info.initialized = true;
+			c, l, eol, userdata,
+			[](module_infos_t& info, const pa_module_info* l){
+				info.name = l->name;
+				info.index = l->index;
+				info.initialized = true;
 			}
 	);
 }
@@ -111,15 +108,27 @@ void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol, void 
 void sink_infos_list_cb(pa_context *c, const pa_sink_info *l, int eol,
 		   void *userdata) {
 	get_infos_list_cb<pa_sink_info, sink_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](sink_infos_t& sink_info, const pa_sink_info* l){
-				sink_info.name = l->name;
-				sink_info.description = l->description;
-				sink_info.index = l->index;
-				sink_info.initialized = true;
+			c, l, eol, userdata,
+			[](sink_infos_t& info, const pa_sink_info* l){
+				info.name = l->name;
+				info.description = l->description;
+				info.index = l->index;
+				info.initialized = true;
+			}
+	);
+}
+
+void sink_input_infos_list_cb(pa_context *c, const pa_sink_input_info *l, int eol,
+		   void *userdata) {
+	get_infos_list_cb<pa_sink_input_info, sink_input_infos_t>(
+			c, l, eol, userdata,
+			[](sink_input_infos_t& info, const pa_sink_input_info* l){
+				info.name = l->name;
+				info.index = l->index;
+				info.owner_module = l->owner_module;
+				info.client = l->client;
+				info.sink = l->sink;
+				info.initialized = true;
 			}
 	);
 }
@@ -127,15 +136,12 @@ void sink_infos_list_cb(pa_context *c, const pa_sink_info *l, int eol,
 void source_infos_list_cb(pa_context *c, const pa_source_info *l, int eol,
 		     void *userdata) {
 	get_infos_list_cb<pa_source_info, source_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](source_infos_t& source_info, const pa_source_info* l){
-				source_info.name = l->name;
-				source_info.description = l->description;
-				source_info.index = l->index;
-				source_info.initialized = true;
+			c, l, eol, userdata,
+			[](source_infos_t& info, const pa_source_info* l){
+				info.name = l->name;
+				info.description = l->description;
+				info.index = l->index;
+				info.initialized = true;
 			}
 	);
 }
@@ -143,16 +149,13 @@ void source_infos_list_cb(pa_context *c, const pa_source_info *l, int eol,
 void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata) {
 	get_infos_list_cb<pa_source_output_info, source_output_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](source_output_infos_t& source_output_info, const pa_source_output_info* l){
-				source_output_info.initialized = true;
-				source_output_info.name = l->name;
-				source_output_info.source = l->source;
-				source_output_info.index = l->index;
-				source_output_info.source_process_binary = 
+			c, l, eol, userdata,
+			[](source_output_infos_t& info, const pa_source_output_info* l){
+				info.initialized = true;
+				info.name = l->name;
+				info.source = l->source;
+				info.index = l->index;
+				info.source_process_binary = 
 					pa_proplist_gets(
 					    l->proplist,
 					    PA_PROP_APPLICATION_PROCESS_BINARY);
@@ -167,14 +170,11 @@ void unload_module_infos_cb(pa_context *c, int success, void *userdata) {
 
 void module_infos_cb(pa_context *c, const pa_module_info *l, int eol, void *userdata) {
 	get_infos_cb<pa_module_info, module_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](module_infos_t& module_info, const pa_module_info* l){
-				module_info.name = l->name;
-				module_info.index = l->index;
-				module_info.initialized = true;
+			c, l, eol, userdata,
+			[](module_infos_t& info, const pa_module_info* l){
+				info.name = l->name;
+				info.index = l->index;
+				info.initialized = true;
 			}
 	);
 }
@@ -182,15 +182,27 @@ void module_infos_cb(pa_context *c, const pa_module_info *l, int eol, void *user
 void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol,
 		   void *userdata) {
 	get_infos_cb<pa_sink_info, sink_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](sink_infos_t& sink_info, const pa_sink_info* l){
-				sink_info.name = l->name;
-				sink_info.description = l->description;
-				sink_info.index = l->index;
-				sink_info.initialized = true;
+			c, l, eol, userdata,
+			[](sink_infos_t& info, const pa_sink_info* l){
+				info.name = l->name;
+				info.description = l->description;
+				info.index = l->index;
+				info.initialized = true;
+			}
+	);
+}
+
+void sink_input_infos_cb(pa_context *c, const pa_sink_input_info *l, int eol,
+		   void *userdata) {
+	get_infos_cb<pa_sink_input_info, sink_input_infos_t>(
+			c, l, eol, userdata,
+			[](sink_input_infos_t& info, const pa_sink_input_info* l){
+				info.name = l->name;
+				info.index = l->index;
+				info.owner_module = l->owner_module;
+				info.client = l->client;
+				info.sink = l->sink;
+				info.initialized = true;
 			}
 	);
 }
@@ -198,15 +210,12 @@ void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol,
 void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 		     void *userdata) {
 	get_infos_cb<pa_source_info, source_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](source_infos_t& source_info, const pa_source_info* l){
-				source_info.name = l->name;
-				source_info.description = l->description;
-				source_info.index = l->index;
-				source_info.initialized = true;
+			c, l, eol, userdata,
+			[](source_infos_t& info, const pa_source_info* l){
+				info.name = l->name;
+				info.description = l->description;
+				info.index = l->index;
+				info.initialized = true;
 			}
 	);
 }
@@ -214,16 +223,13 @@ void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata) {
 	get_infos_cb<pa_source_output_info, source_output_infos_t>(
-			c,
-			l,
-			eol,
-			userdata,
-			[](source_output_infos_t& source_output_info, const pa_source_output_info* l){
-				source_output_info.initialized = true;
-				source_output_info.name = l->name;
-				source_output_info.source = l->source;
-				source_output_info.index = l->index;
-				source_output_info.source_process_binary = 
+			c, l, eol, userdata,
+			[](source_output_infos_t& info, const pa_source_output_info* l){
+				info.initialized = true;
+				info.name = l->name;
+				info.source = l->source;
+				info.index = l->index;
+				info.source_process_binary = 
 					pa_proplist_gets(
 					    l->proplist,
 					    PA_PROP_APPLICATION_PROCESS_BINARY);

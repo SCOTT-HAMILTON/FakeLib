@@ -174,6 +174,20 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 		catch (std::exception) {
 			continue;
 		}
+		// get sink inputs list 
+		try {
+			auto& objectPtr = std::get<info_list<sink_input_infos_t>>(object);
+			op = pa_context_get_sink_input_info_list(
+					ctx,
+					sink_input_infos_list_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
 		// get source list 
 		try {
 			auto& objectPtr = std::get<info_list<source_infos_t>>(object);
@@ -228,6 +242,21 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					ctx,
 					objectPtr.index,
 					sink_infos_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
+		// get sink input infos
+		try {
+			auto& objectPtr = std::get<sink_input_infos_t>(object);
+			op = pa_context_get_sink_input_info(
+					ctx,
+					objectPtr.index,
+					sink_input_infos_cb,
 					&objectPtr);
 			++objectIndex;
 			pa_mainloop_iterate(ml, 1, NULL);

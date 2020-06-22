@@ -16,9 +16,7 @@
 
 // User defined control fields
 static const char *defaultSourceProcessBinary = "Discord";
-static const char *fakeMonitorName = "fakesink.monitor";
 static const char *fakeCombinedMonitorName = "fakecombinedsink.monitor";
-static const char *fakeSinkName = "fakesink";
 static const char *fakeCombinedSinkName = "fakecombinedsink";
 static const char *defaultCombinedSlavesList =
     "alsa_output.pci-0000_00_1f.3.analog-stereo";
@@ -29,7 +27,7 @@ static const int info_list_size = 50;
 
 struct ObjectNotFoundError : public std::exception
 {
-	const char * what () const throw ()
+	const char* what () const throw ()
 	{ 
 		return "Failed to found object in results";
 	}
@@ -81,6 +79,15 @@ typedef struct sink_infos {
 	std::string description;
 } sink_infos_t;
 
+typedef struct sink_input_infos {
+	bool initialized;
+	std::string name;
+	uint32_t index;
+	uint32_t owner_module;
+	uint32_t client;
+	uint32_t sink;
+} sink_input_infos_t;
+
 typedef struct source_infos {
 	bool initialized;
 	std::string name;
@@ -115,10 +122,12 @@ using ObjectVariant = std::variant<
 	set_sink_input_volume_t,
 	info_list<module_infos_t>,
 	info_list<sink_infos_t>,
+	info_list<sink_input_infos_t>,
 	info_list<source_infos_t>,
 	info_list<source_output_infos_t>,
 	module_infos_t,
 	sink_infos_t,
+	sink_input_infos_t,
 	source_infos_t,
 	source_output_infos_t
 >;
@@ -135,10 +144,12 @@ public:
 	FakeLib set_sink_input_volume(uint32_t index, double volume); // volume in percentage
 	FakeLib get_module_list();
 	FakeLib get_sink_list();
+	FakeLib get_sink_input_list();
 	FakeLib get_source_list();
 	FakeLib get_source_output_list();
 	FakeLib get_module(uint32_t index);
 	FakeLib get_sink(uint32_t index);
+	FakeLib get_sink_input(uint32_t index);
 	FakeLib get_source(uint32_t index);
 	FakeLib get_source_output(uint32_t index);
 	std::vector<ObjectVariant> run_commands();
