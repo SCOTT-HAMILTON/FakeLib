@@ -51,6 +51,15 @@ FakeLib FakeLib::set_sink_volume(uint32_t index, double volume) {
 	commandObjects.push_back(infos);
 	return *this;
 }
+FakeLib FakeLib::set_sink_input_volume(uint32_t index, double volume) {
+	set_sink_input_volume_t infos = {
+		.success = 0,
+		.index = index,
+		.volume = volume
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
 FakeLib FakeLib::get_module_list() {
 	info_list<module_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);

@@ -15,7 +15,6 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 	pa_context *ctx;
 
 	// We'll need these state variables to keep track of our requests
-	int state = 0;
 	int ready = 0;
 
 	// Create a mainloop API and connection to the default server
@@ -111,7 +110,7 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 		try {
 			auto& objectPtr = std::get<set_sink_volume_t>(object);
 			double v = objectPtr.volume/100.0;
-			std::cerr << "Setting volume to : " << v << '\n';
+			std::cerr << "[fakelib-log] Setting sink volume to : " << v << '\n';
 			auto volume = pa_sw_volume_from_linear(v);
 			pa_cvolume_set(&(objectPtr.cvolume), 2, volume);
 			op = pa_context_set_sink_volume_by_index(
@@ -119,6 +118,26 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					objectPtr.index,
 					&(objectPtr.cvolume),
 					set_sink_volume_cb,
+					&objectPtr);
+			++objectIndex;
+			pa_mainloop_iterate(ml, 1, NULL);
+			throw std::exception();
+		} catch(const std::bad_variant_access&) {}
+		catch (std::exception) {
+			continue;
+		}
+		// set sink input volume
+		try {
+			auto& objectPtr = std::get<set_sink_input_volume_t>(object);
+			double v = objectPtr.volume/100.0;
+			std::cerr << "[fakelib-log] Setting sink input volume to : " << v << '\n';
+			auto volume = pa_sw_volume_from_linear(v);
+			pa_cvolume_set(&(objectPtr.cvolume), 2, volume);
+			op = pa_context_set_sink_input_volume(
+					ctx,
+					objectPtr.index,
+					&(objectPtr.cvolume),
+					set_sink_input_volume_cb,
 					&objectPtr);
 			++objectIndex;
 			pa_mainloop_iterate(ml, 1, NULL);

@@ -89,6 +89,11 @@ void set_sink_volume_cb(pa_context *c, int success,
 	success_callback<set_sink_volume_t>(c, success, userdata);
 }
 
+void set_sink_input_volume_cb(pa_context *c, int success,
+				     void *userdata) {
+	success_callback<set_sink_input_volume_t>(c, success, userdata);
+}
+
 void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol, void *userdata) {
 	get_infos_list_cb<pa_module_info, module_infos_t>(
 			c,

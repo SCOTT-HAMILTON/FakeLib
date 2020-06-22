@@ -33,6 +33,7 @@ void load_module_infos_cb(pa_context *c, uint32_t index, void *userdata);
 void unload_module_cb(pa_context *c, int success,
 				     void *userdata);
 void set_sink_volume_cb(pa_context *c, int success, void *userdata);
+void set_sink_input_volume_cb(pa_context *c, int success, void *userdata);
 
 
 // Fetching list of modules, sinks, sources and source outputs

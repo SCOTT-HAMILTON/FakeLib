@@ -61,6 +61,13 @@ typedef struct set_sink_volume {
 	pa_cvolume cvolume;
 } set_sink_volume_t;
 
+typedef struct set_sink_input_volume {
+	int success;
+	uint32_t index;
+	double volume;
+	pa_cvolume cvolume;
+} set_sink_input_volume_t;
+
 typedef struct module_infos {
 	bool initialized;
 	std::string name;
@@ -105,6 +112,7 @@ using ObjectVariant = std::variant<
 	load_module_t,
 	unload_module_t,
 	set_sink_volume_t,
+	set_sink_input_volume_t,
 	info_list<module_infos_t>,
 	info_list<sink_infos_t>,
 	info_list<source_infos_t>,
@@ -124,11 +132,11 @@ public:
 			 const std::string& description = "");
 	FakeLib unload_module(uint32_t index);
 	FakeLib set_sink_volume(uint32_t index, double volume); // volume in percentage
+	FakeLib set_sink_input_volume(uint32_t index, double volume); // volume in percentage
 	FakeLib get_module_list();
 	FakeLib get_sink_list();
 	FakeLib get_source_list();
 	FakeLib get_source_output_list();
-	FakeLib set_sink_volume(uint32_t index, int volume_percentage);
 	FakeLib get_module(uint32_t index);
 	FakeLib get_sink(uint32_t index);
 	FakeLib get_source(uint32_t index);
