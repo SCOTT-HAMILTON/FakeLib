@@ -7,4 +7,5 @@ Name: fake
 Description: The FakeLib library
 Version: 0.0.1
 Cflags: -I${includedir}
+Requires: libpulse, libpulse-simple
 Libs: -L${libdir} -lFake

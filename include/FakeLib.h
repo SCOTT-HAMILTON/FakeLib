@@ -18,6 +18,7 @@
 static const char *defaultSourceProcessBinary = "Discord";
 static const char *fakeCombinedMonitorName = "fakecombinedsink.monitor";
 static const char *fakeCombinedSinkName = "fakecombinedsink";
+static const char *sourceLoopbackSinkName = "sourceLoopbackSink";
 static const char *defaultCombinedSlavesList =
     "alsa_output.pci-0000_00_1f.3.analog-stereo";
 static const int info_list_size = 50;

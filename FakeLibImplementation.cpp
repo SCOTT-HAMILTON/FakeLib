@@ -4,6 +4,7 @@
 #include <iostream>
 #include <array>
 #include <exception>
+#include <iostream>
 
 namespace FakeLibImplementation
 {
@@ -69,10 +70,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					move_source_output_port_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// load module
@@ -85,10 +85,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					load_module_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// unload module
@@ -100,17 +99,15 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					unload_module_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// set sink volume
 		try {
 			auto& objectPtr = std::get<set_sink_volume_t>(object);
 			double v = objectPtr.volume/100.0;
-			std::cerr << "[fakelib-log] Setting sink volume to : " << v << '\n';
 			auto volume = pa_sw_volume_from_linear(v);
 			pa_cvolume_set(&(objectPtr.cvolume), 2, volume);
 			op = pa_context_set_sink_volume_by_index(
@@ -120,10 +117,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					set_sink_volume_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// set sink input volume
@@ -140,10 +136,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					set_sink_input_volume_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get modules list 
@@ -154,10 +149,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					module_infos_list_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get sinks list 
@@ -168,10 +162,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					sink_infos_list_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get sink inputs list 
@@ -182,10 +175,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					sink_input_infos_list_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get source list 
@@ -196,11 +188,10 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					source_infos_list_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {
 		}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get source output list 
@@ -211,11 +202,10 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					source_output_infos_list_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {
 		}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 
@@ -228,11 +218,10 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					module_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 			continue;
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get sink infos
@@ -244,10 +233,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					sink_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get sink input infos
@@ -259,10 +247,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					sink_input_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get source infos
@@ -274,10 +261,9 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					source_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
 			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		// get source output infos
@@ -289,17 +275,20 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 					source_output_infos_cb,
 					&objectPtr);
 			++objectIndex;
-			pa_mainloop_iterate(ml, 1, NULL);
-			throw std::exception();
 		} catch(const std::bad_variant_access&) {}
-		catch (std::exception) {
+		catch (std::exception&) {
 			continue;
 		}
 		throw UnknownObjectError();
 	}
+	pa_mainloop_iterate(ml, 1, NULL);
 		
 	//Waiting for operations to finish
-	while (pa_operation_get_state(op) != PA_OPERATION_DONE) {
+	while (1) {
+		auto res = pa_operation_get_state(op);
+		if (res == PA_OPERATION_DONE) {
+			break;
+		}
 		pa_mainloop_iterate(ml, 1, NULL);
 	}
 
