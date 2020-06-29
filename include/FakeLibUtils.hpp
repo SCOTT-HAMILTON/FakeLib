@@ -123,7 +123,38 @@ static auto extract(std::vector<ObjectVariant>& results) {
 	}
 	throw ObjectNotFoundError();
 }
+
+// Finds a source output in a source output list by its source binary name
+static auto find_source_output(const info_list<source_output_infos_t>& list,
+			const std::string& sourceBinaryName) {
+	for (auto info : list) {
+		if (info.source_process_binary == sourceBinaryName)
+			return info;
+	}
+	throw ObjectNotFoundError();
 }
 
+template <typename user_type>
+static auto find_by_name(const info_list<user_type>& list,
+				  const std::string& name)
+{
+	for (auto info : list) {
+		if (info.name == name)
+			return info;
+	}
+	throw ObjectNotFoundError();
+}
+template <typename user_type>
+static auto find_by_index(const info_list<user_type>& list,
+				   uint32_t index)
+{
+	for (auto info : list) {
+		if (info.index == index)
+			return info;
+	}
+	throw ObjectNotFoundError();
+}
+
+}
 
 #endif //FAKE_LIB_UTILS_H

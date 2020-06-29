@@ -1,7 +1,7 @@
 project('FakeLib', 'cpp', default_options : ['cpp_std=c++17'])
 
-libpulse = dependency('libpulse', static: true)
-libpulse_simple = dependency('libpulse-simple', static: true)
+libpulse = dependency('libpulse')
+libpulse_simple = dependency('libpulse-simple')
 
 lib_inc = include_directories('include')
 lib_src = [ 'FakeLib.cpp', 'CallBacks.cpp', 'FakeLibImplementation.cpp' ]

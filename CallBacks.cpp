@@ -155,10 +155,16 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 				info.name = l->name;
 				info.source = l->source;
 				info.index = l->index;
-				info.source_process_binary = 
+				/* info.source_process_binary = */ 
+				auto data = 
 					pa_proplist_gets(
 					    l->proplist,
 					    PA_PROP_APPLICATION_PROCESS_BINARY);
+				if (data == NULL) {
+					std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
+				} else {
+					info.source_process_binary = std::string(data);
+				}
 			}
 	);
 }

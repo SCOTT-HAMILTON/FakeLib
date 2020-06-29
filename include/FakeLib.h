@@ -14,13 +14,9 @@
 #include <vector>
 #include <variant>
 
-// User defined control fields
-static const char *defaultSourceProcessBinary = "Discord";
-static const char *fakeCombinedMonitorName = "fakecombinedsink.monitor";
-static const char *fakeCombinedSinkName = "fakecombinedsink";
-static const char *sourceLoopbackSinkName = "sourceLoopbackSink";
-static const char *defaultCombinedSlavesList =
-    "alsa_output.pci-0000_00_1f.3.analog-stereo";
+// Info list size
+// The bigger this value gets
+// the more stack the library will use
 static const int info_list_size = 50;
 
 // Field list is here:

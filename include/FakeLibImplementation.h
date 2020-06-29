@@ -14,7 +14,7 @@ namespace FakeLibImplementation
 
 struct ConnectionToServerFailure : public std::exception
 {
-	const char * what () const throw ()
+	const char * what () const noexcept override
 	{ 
 		return "Failed to connect to pulse audio server.";
 	}
@@ -22,7 +22,7 @@ struct ConnectionToServerFailure : public std::exception
 
 struct UnknownObjectError : public std::exception
 {
-	const char * what () const throw ()
+	const char * what () const noexcept override
 	{ 
 		return "Object command is unknown.";
 	}
