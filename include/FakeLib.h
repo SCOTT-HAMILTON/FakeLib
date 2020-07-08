@@ -32,9 +32,15 @@ struct ObjectNotFoundError : public std::exception
 
 typedef struct move_source_output_port {
 	int success;
-	uint32_t portIndex;
+	uint32_t index;
 	uint32_t sourceIndex;
 } move_source_output_port_t;
+
+typedef struct move_sink_input_port {
+	int success;
+	uint32_t index;
+	uint32_t sinkIndex;
+} move_sink_input_port_t;
 
 typedef struct load_module {
 	int success;
@@ -83,6 +89,7 @@ typedef struct sink_input_infos {
 	uint32_t owner_module;
 	uint32_t client;
 	uint32_t sink;
+	std::string process_binary;
 } sink_input_infos_t;
 
 typedef struct source_infos {
@@ -97,7 +104,7 @@ typedef struct source_output_infos {
 	std::string name;
 	uint32_t index;
 	uint32_t source;
-	std::string source_process_binary;
+	std::string process_binary;
 } source_output_infos_t;
 
 typedef struct success_info {
@@ -107,12 +114,14 @@ typedef struct success_info {
 template<typename info_type>
 using info_list = std::array<info_type, info_list_size>;
 
-int move_source_output_port(uint32_t sourceIndex, uint32_t portIndex);
+/* int move_source_output_port(uint32_t sourceIndex, uint32_t index); */
+/* int move_sink_input_port(uint32_t sinkIndex, uint32_t index); */
 int load_module(load_module_t *load_module_infos);
 int unload_module(load_module_t *load_module_infos);
 
 using ObjectVariant = std::variant<
 	move_source_output_port_t,
+	move_sink_input_port_t,
 	load_module_t,
 	unload_module_t,
 	set_sink_volume_t,
@@ -132,7 +141,8 @@ using ObjectVariant = std::variant<
 class FakeLib
 {
 public:
-	FakeLib move_source_output_port(uint32_t portIndex, uint32_t sourceIndex);
+	FakeLib move_source_output_port(uint32_t index, uint32_t sourceIndex);
+	FakeLib move_sink_input_port(uint32_t index, uint32_t sinkIndex);
 	FakeLib load_module(const std::string& name, 
 			 const std::string& arguments,
 			 const std::string& description = "");

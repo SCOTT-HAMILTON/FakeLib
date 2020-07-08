@@ -15,7 +15,7 @@ namespace FakeLibUtils
 using namespace FakeLibImplementation;
 
 template<typename user_type>
-static void print_list(info_list<user_type> list,
+static void __attribute__((unused)) print_list(info_list<user_type> list,
 			std::function<void(const user_type&, int)> print){
 	for (int ctr = 0; ctr < info_list_size; ++ctr) {
 		if (list[ctr].initialized)
@@ -23,7 +23,7 @@ static void print_list(info_list<user_type> list,
 	}
 }
 
-static void print_module_list(info_list<module_infos_t> list){
+static void __attribute__((unused)) print_module_list(info_list<module_infos_t> list){
 	print_list<module_infos_t>(
 		list,
 		[](const auto& info, int ctr) {
@@ -37,7 +37,7 @@ static void print_module_list(info_list<module_infos_t> list){
 	);
 }
 
-static void print_sink_list(info_list<sink_infos_t> list){
+static void __attribute__((unused)) print_sink_list(info_list<sink_infos_t> list){
 	print_list<sink_infos_t>(
 		list,
 		[](const auto& info, int ctr) {
@@ -53,7 +53,7 @@ static void print_sink_list(info_list<sink_infos_t> list){
 	);
 }
 
-static void print_sink_input_list(info_list<sink_input_infos_t> list){
+static void __attribute__((unused)) print_sink_input_list(info_list<sink_input_infos_t> list){
 	print_list<sink_input_infos_t>(
 		list,
 		[](const auto& info, int ctr) {
@@ -68,12 +68,14 @@ static void print_sink_input_list(info_list<sink_input_infos_t> list){
 					info.client << '\n';
 			std::cerr << "Sink: " << 
 					info.sink << '\n';
+			std::cerr << "Process Binary: " << 
+					info.process_binary << '\n';
 			std::cerr << '\n';
 		}
 	);
 }
 
-static void print_source_list(info_list<source_infos_t> list){
+static void __attribute__((unused)) print_source_list(info_list<source_infos_t> list){
 	print_list<source_infos_t>(
 		list,
 		[](const auto& info, int ctr) {
@@ -89,7 +91,7 @@ static void print_source_list(info_list<source_infos_t> list){
 	);
 }
 
-static void print_source_output_list(info_list<source_output_infos_t> list){
+static void __attribute__((unused)) print_source_output_list(info_list<source_output_infos_t> list){
 	print_list<source_output_infos_t>(
 		list,
 		[](const auto& info, int ctr) {
@@ -100,15 +102,15 @@ static void print_source_output_list(info_list<source_output_infos_t> list){
 					info.source << '\n';
 			std::cerr << "Index: " << 
 					info.index << '\n';
-			std::cerr << "Source Process Binary Name: " << 
-					info.source_process_binary << '\n';
+			std::cerr << "Process Binary: " << 
+					info.process_binary << '\n';
 			std::cerr << '\n';
 		}
 	);
 }
 
 template<typename info_type>
-static void reset_info_list(info_list<info_type>& list){
+static void __attribute__((unused)) reset_info_list(info_list<info_type>& list){
 	for (auto& object : list) {
 		object.initialized = false;
 	}
@@ -125,30 +127,31 @@ static auto extract(std::vector<ObjectVariant>& results) {
 }
 
 // Finds a source output in a source output list by its source binary name
-static auto find_source_output(const info_list<source_output_infos_t>& list,
-			const std::string& sourceBinaryName) {
-	for (auto info : list) {
-		if (info.source_process_binary == sourceBinaryName)
+template<typename user_type>
+static auto __attribute__((unused)) find_by_process_binary(const info_list<user_type>& list,
+			const std::string& processBinary) {
+	for (const auto& info : list) {
+		if (info.process_binary == processBinary)
 			return info;
 	}
 	throw ObjectNotFoundError();
 }
 
 template <typename user_type>
-static auto find_by_name(const info_list<user_type>& list,
+static auto __attribute__((unused)) find_by_name(const info_list<user_type>& list,
 				  const std::string& name)
 {
-	for (auto info : list) {
+	for (const auto& info : list) {
 		if (info.name == name)
 			return info;
 	}
 	throw ObjectNotFoundError();
 }
 template <typename user_type>
-static auto find_by_index(const info_list<user_type>& list,
+static auto __attribute__((unused)) find_by_index(const info_list<user_type>& list,
 				   uint32_t index)
 {
-	for (auto info : list) {
+	for (const auto& info : list) {
 		if (info.index == index)
 			return info;
 	}

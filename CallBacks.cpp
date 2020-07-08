@@ -73,6 +73,11 @@ void move_source_output_port_cb(pa_context *c, int success,
 	success_callback<success_info_t>(c, success, userdata);
 }
 
+void move_sink_input_port_cb(pa_context *c, int success,
+				     void *userdata) {
+	success_callback<success_info_t>(c, success, userdata);
+}
+
 void load_module_infos_cb(__attribute__((unused)) pa_context *c, uint32_t index,
 		    void *userdata) {
 	load_module_t *load_module = static_cast<load_module_t*>(userdata);
@@ -128,6 +133,15 @@ void sink_input_infos_list_cb(pa_context *c, const pa_sink_input_info *l, int eo
 				info.owner_module = l->owner_module;
 				info.client = l->client;
 				info.sink = l->sink;
+				auto data = 
+					pa_proplist_gets(
+					    l->proplist,
+					    PA_PROP_APPLICATION_PROCESS_BINARY);
+				if (data == NULL) {
+					std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
+				} else {
+					info.process_binary = std::string(data);
+				}
 				info.initialized = true;
 			}
 	);
@@ -155,7 +169,6 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 				info.name = l->name;
 				info.source = l->source;
 				info.index = l->index;
-				/* info.source_process_binary = */ 
 				auto data = 
 					pa_proplist_gets(
 					    l->proplist,
@@ -163,7 +176,7 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 				if (data == NULL) {
 					std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
 				} else {
-					info.source_process_binary = std::string(data);
+					info.process_binary = std::string(data);
 				}
 			}
 	);
@@ -208,6 +221,15 @@ void sink_input_infos_cb(pa_context *c, const pa_sink_input_info *l, int eol,
 				info.owner_module = l->owner_module;
 				info.client = l->client;
 				info.sink = l->sink;
+				auto data = 
+					pa_proplist_gets(
+					    l->proplist,
+					    PA_PROP_APPLICATION_PROCESS_BINARY);
+				if (data == NULL) {
+					std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
+				} else {
+					info.process_binary = std::string(data);
+				}
 				info.initialized = true;
 			}
 	);
@@ -235,10 +257,15 @@ void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 				info.name = l->name;
 				info.source = l->source;
 				info.index = l->index;
-				info.source_process_binary = 
+				auto data = 
 					pa_proplist_gets(
 					    l->proplist,
 					    PA_PROP_APPLICATION_PROCESS_BINARY);
+				if (data == NULL) {
+					std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
+				} else {
+					info.process_binary = std::string(data);
+				}
 			}
 	);
 }

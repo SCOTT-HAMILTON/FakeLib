@@ -53,7 +53,7 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 		// whether or not the iteration should block until something is
 		// ready to be done.  Set it to zero for non-blocking.
 	}
-	uint32_t previousObjectIndex = 0, objectIndex = 0;
+	uint32_t objectIndex = 0;
 	while (true) {
 		if (objectIndex >= objects.size()){
 			break;
@@ -65,9 +65,21 @@ std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects) 
 			auto& objectPtr = std::get<move_source_output_port_t>(object);
 			op = pa_context_move_source_output_by_index(
 					ctx,
-					objectPtr.portIndex,
 					objectPtr.sourceIndex,
+					objectPtr.index,
 					move_source_output_port_cb,
+					&objectPtr);
+			++objectIndex;
+			goto iterate;
+		} catch(const std::bad_variant_access&) {}
+		// move sink input port 
+		try {
+			auto& objectPtr = std::get<move_sink_input_port_t>(object);
+			op = pa_context_move_sink_input_by_index(
+					ctx,
+					objectPtr.sinkIndex,
+					objectPtr.index,
+					move_sink_input_port_cb,
 					&objectPtr);
 			++objectIndex;
 			goto iterate;

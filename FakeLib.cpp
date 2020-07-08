@@ -13,11 +13,20 @@
 #include <variant>
 #include <vector>
 
-FakeLib FakeLib::move_source_output_port(uint32_t portIndex, uint32_t sourceIndex) {
+FakeLib FakeLib::move_source_output_port(uint32_t index, uint32_t sourceIndex) {
 	move_source_output_port_t infos {
 		.success = 0,
-		.portIndex = portIndex,
+		.index = index,
 		.sourceIndex = sourceIndex
+	};
+	commandObjects.push_back(infos);
+	return *this;
+}
+FakeLib FakeLib::move_sink_input_port(uint32_t index, uint32_t sinkIndex) {
+	move_sink_input_port_t infos {
+		.success = 0,
+		.index = index,
+		.sinkIndex = sinkIndex
 	};
 	commandObjects.push_back(infos);
 	return *this;

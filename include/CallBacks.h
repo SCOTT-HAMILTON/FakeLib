@@ -29,6 +29,8 @@ void success_callback(pa_context *c, int success, void *userdata);
 // Actions
 void move_source_output_port_cb(pa_context *c, int success,
 				     void *userdata);
+void move_sink_input_port_cb(pa_context *c, int success,
+				     void *userdata);
 void load_module_infos_cb(pa_context *c, uint32_t index, void *userdata);
 void unload_module_cb(pa_context *c, int success,
 				     void *userdata);
