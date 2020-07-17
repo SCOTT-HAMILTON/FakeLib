@@ -139,10 +139,33 @@ FakeLib FakeLib::get_source_output(uint32_t index) {
 	commandObjects.push_back(infos);
 	return *this;
 }
+FakeLib FakeLib::enable_subscription(pa_subscription_mask_t mask) {
+	{
+		set_subscribe_callback_info_t info = {};
+		commandObjects.push_back(info);
+	}
+	{
+		subscribe_info_t info = {
+			.mask = mask
+		};
+		commandObjects.push_back(info);
+	}
+	return *this;
+}
 std::vector<ObjectVariant> FakeLib::run_commands() {
 	return FakeLibImplementation::run_pa_commands(commandObjects);
 }
 FakeLib FakeLib::clear_commands() {
 	commandObjects.clear();
 	return *this;
+}
+void FakeLib::init_subscribtion(pa_subscription_mask_t mask, user_subscribe_callback_t user_callback) {
+	user_callback(PA_SUBSCRIPTION_EVENT_SINK);
+	FakeLibImplementation::init_subscribtion(mask, user_callback);
+}
+void FakeLib::iterate_subscribtion_loop() {
+	FakeLibImplementation::iterate_subscribtion_loop();
+}
+void FakeLib::clean_subscribtion_loop() {
+	FakeLibImplementation::clean_subscribtion_loop();
 }

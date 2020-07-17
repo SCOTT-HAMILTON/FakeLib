@@ -62,4 +62,8 @@ void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 			    int eol, void *userdata);
 
+// Subscribe
+void subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t idx, void *userdata);
+void enable_subscribtion_cb(pa_context *c, int success, void *userdata);
+
 #endif //CALLBACKS_H

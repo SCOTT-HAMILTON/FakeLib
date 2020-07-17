@@ -8,9 +8,7 @@
 
 #include <exception>
 #include <vector>
-
-namespace FakeLibImplementation
-{
+#include <atomic>
 
 struct ConnectionToServerFailure : public std::exception
 {
@@ -31,9 +29,18 @@ struct UnknownObjectError : public std::exception
 constexpr pa_context_flags_t F_0 = static_cast<pa_context_flags_t>(0);
 constexpr pa_context_flags_t F_1 = static_cast<pa_context_flags_t>(1);
 
-
-
-std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects);
-}
+using user_subscribe_callback_t = std::function<void(pa_subscription_event_type_t event)>;
+class FakeLibImplementation
+{
+public:
+	static std::vector<ObjectVariant> run_pa_commands(std::vector<ObjectVariant>& objects);
+	static void init_subscribtion(pa_subscription_mask_t mask, user_subscribe_callback_t callback);
+	static void iterate_subscribtion_loop();
+	static void clean_subscribtion_loop();
+	static pa_mainloop *ml;
+	static pa_context *ctx;
+	static pa_operation *op;
+	static set_subscribe_callback_info_t callback_info;
+};
 
 #endif //RUN_COMMAND_H

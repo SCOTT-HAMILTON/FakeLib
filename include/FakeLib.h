@@ -1,18 +1,19 @@
 #ifndef FAKE_LIB_H
 #define FAKE_LIB_H
 
-#include <pulse/pulseaudio.h>
 #include <pulse/operation.h>
+#include <pulse/pulseaudio.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
 
-#include <string>
 #include <array>
 #include <exception>
-#include <vector>
+#include <functional>
+#include <string>
 #include <variant>
+#include <vector>
 
 // Info list size
 // The bigger this value gets
@@ -111,6 +112,16 @@ typedef struct success_info {
 	int success;
 } success_info_t;
 
+using user_subscribe_callback_t = std::function<void(pa_subscription_event_type_t event)>;
+typedef struct set_subscribe_callback_info {
+	user_subscribe_callback_t user_callback;
+} set_subscribe_callback_info_t;
+
+typedef struct subscribe_info {
+	int success;
+	pa_subscription_mask_t mask;
+} subscribe_info_t;
+
 template<typename info_type>
 using info_list = std::array<info_type, info_list_size>;
 
@@ -135,7 +146,9 @@ using ObjectVariant = std::variant<
 	sink_infos_t,
 	sink_input_infos_t,
 	source_infos_t,
-	source_output_infos_t
+	source_output_infos_t,
+	set_subscribe_callback_info_t,
+	subscribe_info_t
 >;
 
 class FakeLib
@@ -159,8 +172,12 @@ public:
 	FakeLib get_sink_input(uint32_t index);
 	FakeLib get_source(uint32_t index);
 	FakeLib get_source_output(uint32_t index);
+	FakeLib enable_subscription(pa_subscription_mask_t mask);
 	std::vector<ObjectVariant> run_commands();
 	FakeLib clear_commands();
+	void init_subscribtion(pa_subscription_mask_t mask, user_subscribe_callback_t callback);
+	void iterate_subscribtion_loop();
+	void clean_subscribtion_loop();
 
 private:
 	std::vector<ObjectVariant> commandObjects;

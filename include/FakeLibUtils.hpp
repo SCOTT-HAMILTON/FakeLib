@@ -12,8 +12,6 @@
 namespace FakeLibUtils
 {
 
-using namespace FakeLibImplementation;
-
 template<typename user_type>
 static void __attribute__((unused)) print_list(info_list<user_type> list,
 			std::function<void(const user_type&, int)> print){
