@@ -19,7 +19,8 @@ FakeLib FakeLib::move_source_output_port(uint32_t index, uint32_t sourceIndex) {
 		.index = index,
 		.sourceIndex = sourceIndex
 	};
-	commandObjects.emplace_back(infos);
+	ObjectVariant variant(infos);
+	commandObjects.push_back(variant);
 	return *this;
 }
 FakeLib FakeLib::move_sink_input_port(uint32_t index, uint32_t sinkIndex) {
