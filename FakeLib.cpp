@@ -143,13 +143,13 @@ FakeLib FakeLib::get_source_output(uint32_t index) {
 FakeLib FakeLib::enable_subscription(pa_subscription_mask_t mask) {
 	{
 		set_subscribe_callback_info_t info = {};
-		commandObjects.push_back(info);
+		commandObjects.emplace_back(info);
 	}
 	{
 		subscribe_info_t info = {
 			.mask = mask
 		};
-		commandObjects.push_back(info);
+		commandObjects.emplace_back(info);
 	}
 	return *this;
 }
