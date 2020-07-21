@@ -19,7 +19,7 @@ FakeLib FakeLib::move_source_output_port(uint32_t index, uint32_t sourceIndex) {
 		.index = index,
 		.sourceIndex = sourceIndex
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::move_sink_input_port(uint32_t index, uint32_t sinkIndex) {
@@ -28,7 +28,7 @@ FakeLib FakeLib::move_sink_input_port(uint32_t index, uint32_t sinkIndex) {
 		.index = index,
 		.sinkIndex = sinkIndex
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::load_module(const std::string& name, 
@@ -40,7 +40,7 @@ FakeLib FakeLib::load_module(const std::string& name,
 		.arguments = arguments,
 		.description = description
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::unload_module(uint32_t index) {
@@ -48,7 +48,7 @@ FakeLib FakeLib::unload_module(uint32_t index) {
 		.success = 0,
 		.index = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::set_sink_volume(uint32_t index, double volume) {
@@ -57,7 +57,7 @@ FakeLib FakeLib::set_sink_volume(uint32_t index, double volume) {
 		.index = index,
 		.volume = volume
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::set_sink_input_volume(uint32_t index, double volume) {
@@ -66,37 +66,37 @@ FakeLib FakeLib::set_sink_input_volume(uint32_t index, double volume) {
 		.index = index,
 		.volume = volume
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_module_list() {
 	info_list<module_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_sink_list() {
 	info_list<sink_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_sink_input_list() {
 	info_list<sink_input_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_source_list() {
 	info_list<source_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_source_output_list() {
 	info_list<source_output_infos_t> infos;
 	FakeLibUtils::reset_info_list(infos);
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_module(uint32_t index) {
@@ -104,7 +104,7 @@ FakeLib FakeLib::get_module(uint32_t index) {
 		.initialized = false,
 		.index  = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_sink(uint32_t index) {
@@ -112,7 +112,7 @@ FakeLib FakeLib::get_sink(uint32_t index) {
 		.initialized = false,
 		.index  = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_sink_input(uint32_t index) {
@@ -120,7 +120,7 @@ FakeLib FakeLib::get_sink_input(uint32_t index) {
 		.initialized = false,
 		.index  = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_source(uint32_t index) {
@@ -128,7 +128,7 @@ FakeLib FakeLib::get_source(uint32_t index) {
 		.initialized = false,
 		.index  = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::get_source_output(uint32_t index) {
@@ -136,7 +136,7 @@ FakeLib FakeLib::get_source_output(uint32_t index) {
 		.initialized = false,
 		.index  = index
 	};
-	commandObjects.push_back(infos);
+	commandObjects.emplace_back(infos);
 	return *this;
 }
 FakeLib FakeLib::enable_subscription(pa_subscription_mask_t mask) {
