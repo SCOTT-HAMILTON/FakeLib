@@ -36,11 +36,11 @@ FakeLib FakeLib::load_module(const std::string& name,
 		 const std::string& arguments,
 		 const std::string& description){
 	load_module_t infos = {
-		.success = 0,
-		.name = name,
-		.arguments = arguments,
-		.description = description
+		.success = 0
 	};
+	strcpy(infos.arguments, arguments.c_str());
+	strcpy(infos.description, description.c_str());
+	strcpy(infos.name, name.c_str());
 	commandObjects.emplace_back(infos);
 	return *this;
 }

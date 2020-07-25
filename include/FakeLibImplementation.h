@@ -29,7 +29,6 @@ struct UnknownObjectError : public std::exception
 constexpr pa_context_flags_t F_0 = static_cast<pa_context_flags_t>(0);
 constexpr pa_context_flags_t F_1 = static_cast<pa_context_flags_t>(1);
 
-using user_subscribe_callback_t = std::function<void(pa_subscription_event_type_t event)>;
 class FakeLibImplementation
 {
 public:

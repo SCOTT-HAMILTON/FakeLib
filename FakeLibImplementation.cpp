@@ -94,8 +94,8 @@ std::vector<ObjectVariant> FakeLibImplementation::run_pa_commands(std::vector<Ob
 			auto& objectRef = std::get<load_module_t>(object);
 			op = pa_context_load_module(
 					ctx,
-					objectRef.name.c_str(),
-					objectRef.arguments.c_str(),
+					objectRef.name,
+					objectRef.arguments,
 					load_module_infos_cb,
 					&objectRef);
 			++objectIndex;

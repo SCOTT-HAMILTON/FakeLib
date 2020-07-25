@@ -103,7 +103,7 @@ void module_infos_list_cb(pa_context *c, const pa_module_info *l, int eol, void 
 	get_infos_list_cb<pa_module_info, module_infos_t>(
 		c, l, eol, userdata,
 		[](module_infos_t& info, const pa_module_info* l){
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -115,8 +115,8 @@ void sink_infos_list_cb(pa_context *c, const pa_sink_info *l, int eol,
 	get_infos_list_cb<pa_sink_info, sink_infos_t>(
 		c, l, eol, userdata,
 		[](sink_infos_t& info, const pa_sink_info* l){
-		info.name = l->name;
-		info.description = l->description;
+		strcpy(info.name, l->name);
+		strcpy(info.description, l->description);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -128,7 +128,7 @@ void sink_input_infos_list_cb(pa_context *c, const pa_sink_input_info *l, int eo
 	get_infos_list_cb<pa_sink_input_info, sink_input_infos_t>(
 		c, l, eol, userdata,
 		[](sink_input_infos_t& info, const pa_sink_input_info* l){
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.index = l->index;
 		info.owner_module = l->owner_module;
 		info.client = l->client;
@@ -139,7 +139,7 @@ void sink_input_infos_list_cb(pa_context *c, const pa_sink_input_info *l, int eo
 				PA_PROP_APPLICATION_PROCESS_BINARY);
 		if (data == NULL) {
 		} else {
-		info.process_binary = std::string(data);
+		strcpy(info.process_binary, data);
 		}
 		info.initialized = true;
 		}
@@ -151,8 +151,8 @@ void source_infos_list_cb(pa_context *c, const pa_source_info *l, int eol,
 	get_infos_list_cb<pa_source_info, source_infos_t>(
 		c, l, eol, userdata,
 		[](source_infos_t& info, const pa_source_info* l){
-		info.name = l->name;
-		info.description = l->description;
+		strcpy(info.name, l->name);
+		strcpy(info.description, l->description);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -165,7 +165,7 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 		c, l, eol, userdata,
 		[](source_output_infos_t& info, const pa_source_output_info* l){
 		info.initialized = true;
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.source = l->source;
 		info.index = l->index;
 		auto data = 
@@ -174,7 +174,7 @@ void source_output_infos_list_cb(pa_context *c, const pa_source_output_info *l,
 				PA_PROP_APPLICATION_PROCESS_BINARY);
 		if (data == NULL) {
 		} else {
-		info.process_binary = std::string(data);
+		strcpy(info.process_binary, data);
 		}
 		}
 	);
@@ -189,7 +189,7 @@ void module_infos_cb(pa_context *c, const pa_module_info *l, int eol, void *user
 	get_infos_cb<pa_module_info, module_infos_t>(
 		c, l, eol, userdata,
 		[](module_infos_t& info, const pa_module_info* l){
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -201,8 +201,8 @@ void sink_infos_cb(pa_context *c, const pa_sink_info *l, int eol,
 	get_infos_cb<pa_sink_info, sink_infos_t>(
 		c, l, eol, userdata,
 		[](sink_infos_t& info, const pa_sink_info* l){
-		info.name = l->name;
-		info.description = l->description;
+		strcpy(info.name, l->name);
+		strcpy(info.description, l->description);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -214,7 +214,7 @@ void sink_input_infos_cb(pa_context *c, const pa_sink_input_info *l, int eol,
 	get_infos_cb<pa_sink_input_info, sink_input_infos_t>(
 		c, l, eol, userdata,
 		[](sink_input_infos_t& info, const pa_sink_input_info* l){
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.index = l->index;
 		info.owner_module = l->owner_module;
 		info.client = l->client;
@@ -226,7 +226,7 @@ void sink_input_infos_cb(pa_context *c, const pa_sink_input_info *l, int eol,
 		if (data == NULL) {
 		std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
 		} else {
-		info.process_binary = std::string(data);
+		strcpy(info.process_binary, data);
 		}
 		info.initialized = true;
 		}
@@ -238,8 +238,8 @@ void source_infos_cb(pa_context *c, const pa_source_info *l, int eol,
 	get_infos_cb<pa_source_info, source_infos_t>(
 		c, l, eol, userdata,
 		[](source_infos_t& info, const pa_source_info* l){
-		info.name = l->name;
-		info.description = l->description;
+		strcpy(info.name, l->name);
+		strcpy(info.description, l->description);
 		info.index = l->index;
 		info.initialized = true;
 		}
@@ -252,7 +252,7 @@ void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 		c, l, eol, userdata,
 		[](source_output_infos_t& info, const pa_source_output_info* l){
 		info.initialized = true;
-		info.name = l->name;
+		strcpy(info.name, l->name);
 		info.source = l->source;
 		info.index = l->index;
 		auto data = 
@@ -262,7 +262,7 @@ void source_output_infos_cb(pa_context *c, const pa_source_output_info *l,
 		if (data == NULL) {
 		std::cerr << "Source Output " << info.name << " doesn't have a process binary property\n";
 		} else {
-		info.process_binary = std::string(data);
+		strcpy(info.process_binary, data);
 		}
 		}
 	);

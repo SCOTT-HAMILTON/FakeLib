@@ -11,6 +11,7 @@ lib_fake = shared_library('Fake', lib_src,
   install : true)
 
 install_headers('include/FakeLib.h', 'include/FakeLibImplementation.h', 'include/CallBacks.h', 'include/FakeLibUtils.hpp')
+install_headers('include/FakeLib/common.h', install_dir: 'include/FakeLib')
 
 install_data('pkg-config/fake.pc',
   install_dir: get_option('libdir')+'/pkgconfig')
