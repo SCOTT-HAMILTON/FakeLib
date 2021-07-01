@@ -10,8 +10,7 @@ lib_fake = shared_library('Fake', lib_src,
   dependencies : [libpulse, libpulse_simple], 
   install : true)
 
-install_headers('include/FakeLib.h', 'include/FakeLibImplementation.h', 'include/CallBacks.h', 'include/FakeLibUtils.hpp')
-install_headers('include/FakeLib/common.h', install_dir: 'include/FakeLib')
+install_headers('include/FakeLib.h', 'include/FakeLibImplementation.h', 'include/CallBacks.h', 'include/FakeLibUtils.hpp','include/FakeLib/common.h', install_dir: 'include/FakeLib')
 
 install_data('pkg-config/fake.pc',
   install_dir: get_option('libdir')+'/pkgconfig')
